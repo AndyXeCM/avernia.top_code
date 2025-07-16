@@ -1,234 +1,1245 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Minecraft Server Name]</title>
+    <title>AverniaMC | 云海世界</title>
     <link rel="icon" type="image/png" href="media/favicon.png">
-    <link rel="stylesheet" href="media/style.css">
-    <link href="https://fonts.bunny.net/css?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.bunny.net/css?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: rgba(138, 180, 248, 0.9);
+            --secondary-color: rgba(192, 222, 255, 0.7);
+            --text-color: rgba(255, 255, 255, 0.98);
+            --accent-color: #7ab3ff;
+            --accent-light: rgba(122, 179, 255, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.18);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --glass-highlight: 0 0 24px rgba(122, 179, 255, 0.4);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --liquid-refraction: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            --minecraft-green: #55ff55;
+            --minecraft-dark-green: #00aa00;
+            --minecraft-brown: #aa5500;
+            --minecraft-dark-brown: #552a00;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(rgba(15, 30, 60, 0.3), rgba(15, 30, 60, 0.3)), 
+                        url('https://avernia.top/media/10.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* 高级液态玻璃效果 */
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18),
+                        0 0 24px rgba(122, 179, 255, 0.4),
+                        inset 0 0 16px rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .liquid-glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--liquid-refraction);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        @keyframes liquidRefraction {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(2px, -1px); }
+            50% { transform: translate(-1px, 2px); }
+            75% { transform: translate(1px, -2px); }
+        }
+
+        .liquid-glass:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 16px 56px rgba(0, 0, 0, 0.22),
+                        0 8px 32px rgba(122, 179, 255, 0.6),
+                        inset 0 0 24px rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(28px) saturate(220%);
+            -webkit-backdrop-filter: blur(28px) saturate(220%);
+        }
+
+        .liquid-glass:hover::before {
+            animation: liquidRefraction 4s ease-in-out infinite;
+        }
+        
+        /* Minecraft 风格按钮 */
+        .minecraft-button {
+            position: relative;
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+            border: 2px solid #1B5E20;
+            border-radius: 4px;
+            box-shadow: 0 4px 0 #1B5E20, 
+                        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.1s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .minecraft-button:hover {
+            background: linear-gradient(to bottom, #5CBF62, #3E9F44);
+            box-shadow: 0 4px 0 #1B5E20, 
+                        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+                        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .minecraft-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1B5E20, 
+                        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .minecraft-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+            pointer-events: none;
+        }
+
+        /* 动态导航栏 - Minecraft 风格 */
+        .desktop_navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 12px 6%;
+            z-index: 1000;
+            background: rgba(42, 42, 42, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--minecraft-dark-brown);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+        
+        .desktop_navbar.scrolled {
+            padding: 8px 6%;
+            background: rgba(34, 34, 34, 0.9);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .desktop_navbar_logo_img {
+            height: 42px;
+            margin-right: auto;
+            transition: var(--transition);
+            filter: drop-shadow(0 0 8px rgba(85, 255, 85, 0.6));
+        }
+        
+        .desktop_navbar_logo_img:hover {
+            transform: scale(1.08);
+            filter: drop-shadow(0 0 12px rgba(85, 255, 85, 0.8));
+        }
+        
+        .desktop_navbar_link {
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 0 16px;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            padding: 8px 12px;
+            transition: var(--transition);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .desktop_navbar_link:hover {
+            color: var(--minecraft-green);
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(85, 255, 85, 0.3);
+            text-shadow: 0 0 8px rgba(85, 255, 85, 0.5);
+        }
+        
+        .desktop_navbar_link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--minecraft-green);
+            transition: var(--transition);
+        }
+        
+        .desktop_navbar_link:hover::after {
+            width: calc(100% - 24px);
+        }
+        
+        .desktop_navbar_link2 {
+            color: white;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+            font-size: 16px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 0 #1B5E20, 
+                        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+            border: 2px solid #1B5E20;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .desktop_navbar_link2:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(to bottom, #5CBF62, #3E9F44);
+            box-shadow: 0 6px 0 #1B5E20, 
+                        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+                        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .desktop_navbar_link2:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1B5E20, 
+                        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .desktop_navbar_link2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .desktop_navbar_link2:hover::before {
+            left: 100%;
+        }
+        
+        /* 服务器IP按钮 - 毛玻璃Minecraft风格 */
+        .ip-card {
+            width: 300px;
+            height: 120px;
+            margin: 30px 0;
+            cursor: pointer;
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 2px solid rgba(85, 255, 85, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                        inset 0 0 16px rgba(85, 255, 85, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .ip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+                        inset 0 0 24px rgba(85, 255, 85, 0.3);
+            background: rgba(0, 0, 0, 0.6);
+            border-color: rgba(85, 255, 85, 0.5);
+        }
+
+        .ip-card:active {
+            transform: translateY(0);
+        }
+
+        .ip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(85, 255, 85, 0.1) 0%,
+                transparent 50%,
+                rgba(85, 255, 85, 0.1) 100%
+            );
+            pointer-events: none;
+        }
+
+        .ip-text-large {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--minecraft-green);
+            text-shadow: 0 0 8px rgba(85, 255, 85, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .ip-text-small {
+            font-size: 14px;
+            opacity: 0.9;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .ip-card-glow {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(
+                circle at center,
+                rgba(85, 255, 85, 0.3) 0%,
+                rgba(85, 255, 85, 0) 70%
+            );
+            border-radius: 16px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .ip-card:hover .ip-card-glow {
+            opacity: 1;
+        }
+
+        /* 移动端导航栏 */
+        .mobile_navbar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 12px 6%;
+            z-index: 1000;
+            background: rgba(42, 42, 42, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--minecraft-dark-brown);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .mobile_menu_btn {
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            margin-left: 20px;
+            transition: var(--transition);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .mobile_menu_btn:hover {
+            color: var(--minecraft-green);
+            transform: rotate(90deg);
+        }
+        
+        .mobile_navbar_links {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: rgba(34, 34, 34, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px;
+            z-index: 999;
+            border-bottom: 2px solid var(--minecraft-dark-brown);
+            animation: slideDown 0.4s ease-out;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .mobile_navbar_link {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 16px 20px;
+            font-size: 16px;
+            border-bottom: 1
+px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .mobile_navbar_link i {
+            margin-right: 12px;
+            width: 24px;
+            text-align: center;
+            color: var(--minecraft-green);
+        }
+        
+        .mobile_navbar_link:hover {
+            color: var(--minecraft-green);
+            background: rgba(0, 0, 0, 0.4);
+            padding-left: 15px;
+            border-color: rgba(85, 255, 85, 0.3);
+        }
+
+        /* 主要内容区域 */
+        .mainflex {
+            padding-top: 100px;
+        }
+        
+        /* 英雄区域 */
+        .hero_section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .hero_logo {
+            max-width: 80%;
+            max-height: 220px;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 0 30px rgba(85, 255, 85, 0.9));
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .hero_text {
+            font-size: 26px;
+            margin-bottom: 50px;
+            line-height: 1.7;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+        }
+        
+        .accent_text {
+            color: var(--minecraft-green);
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(85, 255, 85, 0.6);
+        }
+        
+        /* 功能卡片部分 */
+        .features_section {
+            padding: 100px 8%;
+            position: relative;
+        }
+        
+        .section_title {
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            color: var(--minecraft-green);
+            text-shadow: 0 3px 8px rgba(85, 255, 85, 0.5);
+        }
+        
+        .section_title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--minecraft-green), transparent);
+            box-shadow: 0 0 15px var(--minecraft-green);
+            border-radius: 2px;
+        }
+        
+        .features_grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature_card {
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(85, 255, 85, 0.2);
+            transition: var(--transition);
+        }
+        
+        .feature_card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
+                        inset 0 0 20px rgba(85, 255, 85, 0.3);
+            border-color: rgba(85, 255, 85, 0.4);
+        }
+        
+        .feature_icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--minecraft-green);
+            text-shadow: 0 0 15px rgba(85, 255, 85, 0.5);
+        }
+        
+        .feature_title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--minecraft-green);
+        }
+        
+        .feature_desc {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .feature_img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(85, 255, 85, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+        
+        .feature_card:hover .feature_img {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(85, 255, 85, 0.3);
+        }
+        
+        /* 关于我们部分 */
+        .about_section {
+            padding: 100px 8%;
+            position: relative;
+        }
+        
+        .about_container {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px;
+            border-radius: 12px;
+            border: 1px solid rgba(85, 255, 85, 0.2);
+        }
+        
+        .about_text {
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+        
+        .about_highlight {
+            color: var(--minecraft-green);
+            font-weight: 600;
+        }
+        
+        .about_list {
+            margin: 30px 0;
+            padding-left: 20px;
+        }
+        
+        .about_list li {
+            margin-bottom: 15px;
+            position: relative;
+            list-style-type: none;
+            padding-left: 30px;
+        }
+        
+        .about_list li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--minecraft-green);
+            text-shadow: 0 0 8px rgba(85, 255, 85, 0.5);
+        }
+        
+        /* 联系部分 */
+        .contact_section {
+            padding: 100px 8%;
+            position: relative;
+        }
+        
+        .contact_container {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 50px;
+            text-align: center;
+            border-radius: 12px;
+            border: 1px solid rgba(85, 255, 85, 0.2);
+        }
+        
+        .contact_title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--minecraft-green);
+        }
+        
+        .contact_qr {
+            width: 220px;
+            height: 220px;
+            margin: 30px auto;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            border: 1px solid rgba(85, 255, 85, 0.3);
+        }
+        
+        .contact_qr img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .contact_info {
+            margin-top: 40px;
+        }
+        
+        .contact_item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: var(--transition);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact_item:hover {
+            background: rgba(0, 0, 0, 0.5);
+            transform: translateY(-3px);
+        }
+        
+        .contact_icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--minecraft-green);
+            text-shadow: 0 0 8px rgba(85, 255, 85, 0.5);
+        }
+        
+        .contact_text {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        /* 加入方式部分 */
+        .join_section {
+            padding: 100px 8%;
+            position: relative;
+        }
+        
+        .join_container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .join_card {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            border: 1px solid rgba(85, 255, 85, 0.2);
+            transition: var(--transition);
+        }
+        
+        .join_card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
+                        inset 0 0 20px rgba(85, 255, 85, 0.3);
+            border-color: rgba(85, 255, 85, 0.4);
+        }
+        
+        .join_platform {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--minecraft-green);
+            position: relative;
+        }
+        
+        .join_platform::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--minecraft-green);
+            box-shadow: 0 0 10px var(--minecraft-green);
+        }
+        
+        .join_details {
+            margin-top: 25px;
+        }
+        
+        .join_row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(85, 255, 85, 0.3);
+        }
+        
+        .join_label {
+            font-weight: 500;
+            opacity: 0.8;
+        }
+        
+        .join_value {
+            font-weight: 600;
+        }
+        
+        .status_online {
+            color: var(--minecraft-green);
+            text-shadow: 0 0 8px rgba(85, 255, 85, 0.5);
+        }
+        
+        /* 页脚部分 */
+        .footer {
+            padding: 40px 8%;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 2px solid var(--minecraft-dark-brown);
+        }
+        
+        .footer_logo {
+            height: 50px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(85, 255, 85, 0.5));
+        }
+        
+        .footer_links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .footer_link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            transition: var(--transition);
+            padding: 8px 12px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .footer_link:hover {
+            color: var(--minecraft-green);
+            background: rgba(0, 0, 0, 0.4);
+            text-shadow: 0 0 8px rgba(85, 255, 85, 0.5);
+        }
+        
+        .social_links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .social_link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+        
+        .social_link:hover {
+            background: var(--minecraft-green);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(85, 255, 85, 0.5);
+            color: #333;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .desktop_navbar {
+                display: none;
+            }
+            
+            .mobile_navbar {
+                display: flex;
+            }
+            
+            .hero_text {
+                font-size: 22px;
+            }
+            
+            .section_title {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero_text {
+                font-size: 20px;
+                margin-bottom: 40px;
+            }
+            
+            .features_grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .join_container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about_container {
+                padding: 30px;
+            }
+            
+            .contact_container {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero_text {
+                font-size: 18px;
+            }
+            
+            .section_title {
+                font-size: 32px;
+            }
+            
+            .about_text {
+                font-size: 16px;
+            }
+            
+            .contact_qr {
+                width: 180px;
+                height: 180px;
+            }
+        }
+        
+        /* 滚动动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--minecraft-green);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(85, 255, 85, 0.8);
+        }
+    </style>
 </head>
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <nav class="desktop_navbar">
-      <a href="#"><img class="desktop_navbar_logo_img" src="media/logo_small.png" alt="logo"></a>
-      <a href="https://wiki.example.com/" class="desktop_navbar_link">Wiki</a>
-      <a href="#discord" class="desktop_navbar_link scroll">Community</a>
-      <a href="#about" class="desktop_navbar_link scroll">About Us</a>
-      <div class="desktop_navbar_link2_div">
-          <a href="#join" class="desktop_navbar_link2 scroll">Join Us!</a>
-      </div>
+        <a href="#"><img class="desktop_navbar_logo_img" src="media/logo_small.png" alt="logo"></a>
+        <a href="#features" class="desktop_navbar_link">游戏一览</a>
+        <a href="#about" class="desktop_navbar_link">项目介绍</a>
+        <a href="#contact" class="desktop_navbar_link">联系我们</a>
+        <div class="desktop_navbar_link2_div">
+            <a href="#join" class="desktop_navbar_link2">现在游玩</a>
+        </div>
     </nav>
+    
     <div class="mobile_navbar">
-      <a href="#" class="mobile_navbar_logo_img_a"><img class="mobile_navbar_logo_img" src="media/logo_small.png" alt="logo"></a>
-      <div id="mobile_navbar_links">
-          <a class="mobile_navbar_link" onclick="mobile_navbar_link_hider()" href="https://wiki.example.com/">Wiki</a>
-          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#discord">Community</a>
-          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#about">About Us</a>
-          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#join">Join Us</a>
+        <a href="#" class="mobile_navbar_logo_img_a"><img class="mobile_navbar_logo_img" src="media/logo_small.png" alt="logo"></a>
+        <div class="icon mobile_menu_btn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
         </div>
-        <div class="icon" onclick="mobile_navbar_link_hider()">
-            <i class="fa fa-bars"></i>
+        <div id="mobile_navbar_links" class="mobile_navbar_links">
+            <a class="mobile_navbar_link" onclick="toggleMobileMenu()" href="#features">
+                <i class="fas fa-gamepad"></i>游戏一览
+            </a>
+            <a class="mobile_navbar_link" onclick="toggleMobileMenu()" href="#about">
+                <i class="fas fa-info-circle"></i>项目介绍
+            </a>
+            <a class="mobile_navbar_link" onclick="toggleMobileMenu()" href="#contact">
+                <i class="fas fa-envelope"></i>联系我们
+            </a>
+            <a class="mobile_navbar_link" onclick="toggleMobileMenu()" href="#join">
+                <i class="fas fa-play"></i>现在游玩
+            </a>
         </div>
-        <script>
-            function mobile_navbar_link_hider() {
+    </div>
+    
+    <div class="mainflex">
+        <!-- 英雄区域 -->
+        <section class="hero_section" id="home">
+            <img src="media/logo.png" alt="云海世界" class="hero_logo">
+            <div class="hero_text">
+                在云端之上的奇幻世界，体验最纯粹的Minecraft乐趣。<br>
+                与好友一起探索、建造、战斗，找回最初的<span class="accent_text">欢乐时光</span>。
+            </div>
+            <div class="ip-card" onclick="copyServerIP()">
+                <div class="ip-card-glow"></div>
+                <div class="ip-text-large">mc.avernia.top</div>
+                <div class="ip-text-small">点击复制</div>
+            </div>
+            <a href="#features" class="scroll_down">
+                <img src="media/downarrow.png" width="100" height="50"alt="向下滚动">
+            </a>
+        </section>
+        
+        <!-- 功能区域 -->
+        <section class="features_section" id="features">
+            <h2 class="section_title">游戏特色</h2>
+            <div class="features_grid">
+                <div class="feature_card animate" style="animation-delay: 0.1s;">
+                    <div class="feature_icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="feature_title">云海世界生存服</h3>
+                    <img src="https://i.postimg.cc/TKBBDYx1/1.png" alt="生存服" class="feature_img">
+                    <p class="feature_desc">
+                        在漂浮于云端的奇幻世界中生存，独特的空岛地形与丰富的游戏内容，带给你全新的生存体验。
+                    </p>
+                </div>
+                
+                <div class="feature_card animate" style="animation-delay: 0.3s;">
+                    <div class="feature_icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h3 class="feature_title">起床战争</h3>
+                    <img src="https://i.postimg.cc/njGWg4D9/2.png" alt="起床战争" class="feature_img">
+                    <p class="feature_desc">
+                        经典的起床战争玩法，在云端战场上与队友并肩作战。多种地图与战术选择，考验你的团队协作能力。
+                    </p>
+                </div>
+                
+                <div class="feature_card animate" style="animation-delay: 0.5s;">
+                    <div class="feature_icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature_title">决斗游戏</h3>
+                    <img src="https://i.postimg.cc/vDXjvvyp/3.png" alt="决斗游戏" class="feature_img">
+                    <p class="feature_desc">
+                        在云端的竞技场中与其他玩家一决高下。多种武器与技能组合，打造属于你的战斗风格。
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 关于我们 -->
+        <section class="about_section" id="about">
+            <h2 class="section_title">关于云海世界</h2>
+            <div class="about_container animate">
+                <p class="about_text">
+                    云海世界是一个以"云端幻想"为主题的Minecraft服务器，我们致力于为玩家打造一个充满诗意与奇幻的游戏体验。在这个漂浮于云层之上的世界中，你可以探索神秘的空岛、建造属于自己的天空之城、与好友一起冒险。
+                </p>
+                
+                <h3 class="about_highlight">服务器特色</h3>
+                <ul class="about_list">
+                    <li>独特的云海地形生成 - 整个世界漂浮在无尽的云层之上</li>
+                    <li>完善的生存体系 - 在保留原版生存核心玩法的基础上加入创新机制</li>
+                    <li>友好的社区环境 - 鼓励玩家之间的交流与合作</li>
+                    <li>稳定的服务器性能 - 使用高性能服务器硬件，确保流畅体验</li>
+                </ul>
+                
+                <p class="about_text">
+                    我们的核心理念是"回归游戏的本质乐趣"。我们希望通过这个服务器，让玩家找回最初玩Minecraft时的那份纯粹快乐 - 探索未知的兴奋、创造的成就感、与朋友并肩作战的温暖。
+                </p>
+            </div>
+        </section>
+        
+        <!-- 联系我们 -->
+        <section class="contact_section" id="contact">
+            <h2 class="section_title">联系我们</h2>
+            <div class="contact_container animate">
+                <h3 class="contact_title">加入云海世界社区</h3>
+                <p>无论您有任何问题、建议，或是想与其他玩家交流，都欢迎加入我们的QQ群</p>
+                
+                <div class="contact_qr">
+                    <img src="/media/qqgroup.jpg" alt="QQ群二维码">
+                </div>
+                
+                <div class="contact_info">
+                    <div class="contact_item">
+                        <i class="fab fa-qq contact_icon"></i>
+                        <span class="contact_text">QQ群: 902263598</span>
+                    </div>
+                    <div class="contact_item">
+                        <i class="fas fa-envelope contact_icon"></i>
+                        <span class="contact_text">Email: ska@vip.qq.com</span>
+                    </div>
+                    <div class="contact_item">
+                        <i class="fas fa-globe contact_icon"></i>
+                        <span class="contact_text">官方网站: https://avernia.top</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 加入方式 -->
+        <section class="join_section" id="join">
+            <h2 class="section_title">加入方式</h2>
+            <div class="join_container">
+                <div class="join_card animate" style="animation-delay: 0.2s;">
+                    <h3 class="join_platform">Java版</h3>
+                    <div class="join_details">
+                        <div class="join_row">
+                            <span class="join_label">IP地址:</span>
+                            <span class="join_value">mc.avernia.top</span>
+                        </div>
+                        <div class="join_row">
+                            <span class="join_label">版本:</span>
+                            <span class="join_value">1.7+</span>
+                        </div>
+                        <div class="join_row">
+                            <span class="join_label">状态:</span>
+                            <span class="join_value status_online">● 暂时离线</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="join_card animate" style="animation-delay: 0.4s;">
+                    <h3 class="join_platform">基岩版</h3>
+                    <div class="join_details">
+                        <div class="join_row">
+                            <span class="join_label">IP地址:</span>
+                            <span class="join_value">p.avernia.top</span>
+                        </div>
+                        <div class="join_row">
+                            <span class="join_label">端口:</span>
+                            <span class="join_value">19132</span>
+                        </div>
+                        <div class="join_row">
+                            <span class="join_label">状态:</span>
+                            <span class="join_value status_online">● 暂时离线</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <img src="media/logo_small.png" alt="云海世界" class="footer_logo">
+            <div class="footer_links">
+                <a href="#home" class="footer_link">首页</a>
+                <a href="#features" class="footer_link">游戏一览</a>
+                <a href="#about" class="footer_link">项目介绍</a>
+                <a href="#contact" class="footer_link">联系我们</a>
+                <a href="#join" class="footer_link">加入方式</a>
+            </div>
+            <div class="social_links">
+                <a href="#" class="social_link"><i class="fab fa-qq"></i></a>
+                <a href="#" class="social_link"><i class="fab fa-weixin"></i></a>
+                <a href="#" class="social_link"><i class="fab fa-bilibili"></i></a>
+                <a href="#" class="social_link"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2023 云海世界 AverniaMC. 保留所有权利.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 移动菜单切换
+        function toggleMobileMenu() {
             var x = document.getElementById("mobile_navbar_links");
             if (x.style.display === "flex") {
                 x.style.display = "none";
             } else {
                 x.style.display = "flex";
             }
-            } 
-        </script>
-    </div>
-    <div class="mainflex">
-      <div class="main1">
-        <a class="main1_logo_a" href="#">
-          <img class="main1_logo" src="media/logo.png" alt="logo">
-        </a>
-        <div class="main1_description">
-          <a>Minecraft,<br>like</a>
-          <a class="main1_actcent">already done before</a><a>.</a>
-        </div>
-        <div class="main1_ipcopier_div">
-          <button class="main1_ipcopier" onclick="copyText()" type="button">
-            <span class="main1_ipcopier_text1">play.example.com</span>
-            <br>
-            <span class="main1_ipcopier_text2">Click to copy</span>
-          </button>
-          <script>
-            function copyText() {
-                navigator.clipboard.writeText
-            ("play.example.com");
+        }
+        
+        // 复制服务器IP
+        function copyServerIP() {
+            navigator.clipboard.writeText("mc.avernia.top");
+            
+            // 创建并显示提示
+            var popup = document.createElement('div');
+            popup.className = 'copy-confirm';
+            popup.textContent = '已复制服务器IP';
+            document.body.appendChild(popup);
+            
+            // 添加显示类
+            setTimeout(() => popup.classList.add('show'), 10);
+            
+            // 1秒后移除提示
+            setTimeout(() => {
+                popup.classList.remove('show');
+                setTimeout(() => popup.remove(), 300);
+            }, 1000);
+        }
+        
+        // 滚动时导航栏效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.desktop_navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
                 }
-            $(document).ready(function() {
-            $('.main1_ipcopier').click(function() {
-                var popup = $('<div>', { class: 'main1_popup' })
-                .append($('<h3 class="copy_confirm">').text('Copied IP to clipboard'))
-                $(this).after(popup);
-                setTimeout(function() {
-                popup.remove();
-                }, 1000);
             });
+        });
+        
+        // 滚动动画
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate');
+            const windowHeight = window.innerHeight;
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const animationPoint = windowHeight - 100;
+                
+                if (elementPosition < animationPoint) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
             });
-        </script>
-        </div>
-        <a href="#more" class="scroll">
-          <img alt="downarrow" class="main1_downarrow" src="media/downarrow.png">
-        </a>
-        <script>
-          const scrollLinks = document.querySelectorAll('.scroll');
-          scrollLinks.forEach(function(link) {
-            link.addEventListener('click', function(event) {
-              event.preventDefault();
-              const target = document.querySelector(link.getAttribute('href'));
-              const offsetTop = target.offsetTop;
-              window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-              });
+        }
+        
+        // 初始加载时触发一次
+        window.addEventListener('load', animateOnScroll);
+        
+        // 滚动时触发
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // 预加载重要图片
+        function preloadImages() {
+            const images = [
+                'media/logo.png',
+                'media/logo_small.png',
+                'media/downarrow.png',
+                'https://images.unsplash.com/photo-1607513746994-51f730a44832?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                'https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                'https://images.unsplash.com/photo-1560253023-3ec5d502959f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            ];
+            
+            images.forEach(img => {
+                new Image().src = img;
             });
-          });
-        </script>
-      </div>
-      <div id="more"></div>
-      <div class="main2">
-        <a class="headline">What we have</a>
-        <div class="main2_features_div">
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Image" src="media/placeholder.png">
-            <a class="main2_feature_headline">Feature 1</a>
-            <a class="main2_feature_text">Feature description</a>
-          </div>
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Image" src="media/placeholder.png">
-            <a class="main2_feature_headline">Feature 2</a>
-            <a class="main2_feature_text">Feature description</a>
-          </div>
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Image" src="media/placeholder.png">
-            <a class="main2_feature_headline">Feature 3</a>
-            <a class="main2_feature_text">Feature description</a>
-          </div>
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Image" src="media/placeholder.png">
-            <a class="main2_feature_headline">Feature 4</a>
-            <a class="main2_feature_text">Feature description</a>
-          </div>
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Image" src="media/placeholder.png">
-            <a class="main2_feature_headline">Feature 5</a>
-            <a class="main2_feature_text">Feature description</a>
-          </div>
-        </div>
-      </div>
-      <div id="discord"></div>
-      <div class="main4">
-        <a class="headline">Join the Discord</a>
-        <div class="main4_dc_div">
-          <iframe class="main4_dc_widget" src="https://imgur.com/78RPeUY.png" width="350" height="500" title="discord" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-          <div class="main4_dc_description_div">
-            <a class="main4_dc_description_title">Let's talk!</a>
-            <a class="main4_dc_description"> ・Meet other players <br> ・Ask questions <br> ・Get notified about updates <br> ・Give feedback  <br><br> &amp; more </a>
-            <a href="https://discord.gg/INVITE" class="main4_dc_button_a">
-              <div class="main4_dc_button">Join</div>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div id="about"></div>
-      <div class="main5">
-        <a class="headline">Who we are</a>
-        <div class="main5_admin_div">
-          <div class="main5_admins_div main5_admins_dev_type2">
-            <img class="main5_admins_img" alt="admin member img" src="media/member_placeholder.webp">
-            <div class="main5_admins_description_div">
-              <a class="main5_admins_description_rank main5_admins_description_rank_owner">[Owner]</a>
-              <a class="main5_admins_description_title" href="https://example.com">Owner Name</a>
-              <a class="main5_admins_description">Owner<br>description</a>
-            </div>
-          </div>
-          <div class="main5_admins_div main5_admins_dev_type1">
-            <img class="main5_admins_img" alt="admin member img" src="media/member_placeholder.webp">
-            <div class="main5_admins_description_div">
-              <a class="main5_admins_description_rank main5_admins_description_rank_admin">[Admin]</a>
-              <a class="main5_admins_description_title" href="https://example.com">Admin Name</a>
-              <a class="main5_admins_description">Admin<br>description</a>
-            </div>
-          </div>
-        </div>
-        <div class="main5_supporter_div">
-          <div class="main5_supporters_div">
-            <img class="main5_supporters_img" alt="supporters member img" src="media/member_placeholder.webp">
-            <div class="main5_supporters_description_div">
-              <a class="main5_supporters_description_rank main5_supporters_description_rank_supporter">[Supporter]</a>
-              <a class="main5_supporters_description_title">Replacable Supporter 1</a>
-              <a class="main5_supporters_description">Supporter<br>Description</a>
-            </div>
-          </div>
-          <div class="main5_supporters_div">
-            <img class="main5_supporters_img" alt="supporters member img" src="media/member_placeholder.webp">
-            <div class="main5_supporters_description_div">
-              <a class="main5_supporters_description_rank main5_supporters_description_rank_supporter">[Supporter]</a>
-              <a class="main5_supporters_description_title">Replacable Supporter 2</a>
-              <a class="main5_supporters_description">Supporter<br>Description</a>
-            </div>
-          </div>
-          <div class="main5_supporters_div">
-            <img class="main5_supporters_img" alt="supporters member img" src="media/member_placeholder.webp">
-            <div class="main5_supporters_description_div">
-              <a class="main5_supporters_description_rank main5_supporters_description_rank_supporter">[Supporter]</a>
-              <a class="main5_supporters_description_title">Replacable Supporter 3</a>
-              <a class="main5_supporters_description">Supporter<br>Description</a>
-            </div>
-          </div>
-          <div class="main5_supporters_div">
-            <img class="main5_supporters_img" alt="supporters member img" src="media/member_placeholder.webp">
-            <div class="main5_supporters_description_div">
-              <a class="main5_supporters_description_rank main5_supporters_description_rank_supporter">[Supporter]</a>
-              <a class="main5_supporters_description_title">Replacable Supporter 4</a>
-              <a class="main5_supporters_description">Supporter<br>Description</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="join"></div>
-      <div class="main3">
-        <a class="headline">How to join</a>
-        <div class="main3_join_div_div">
-          <div class="main3_join_div">
-            <a class="main3_join_title">Java</a>
-            <div class="main3_join_content_div">
-              <div class="main3_join_categories">
-                <a>IP:</a>
-                <a>Version:</a>
-              </div>
-              <div class="main3_join_values">
-                <a>play.example.com</a>
-                <a>1.20.1</a>
-              </div>
-            </div>
-          </div>
-          <div class="main3_join_div">
-            <a class="main3_join_title">Bedrock</a>
-            <div class="main3_join_content_div">
-              <div class="main3_join_categories">
-                <a>IP:</a>
-                <a>Port:</a>
-              </div>
-              <div class="main3_join_values">
-                <a>be.example.com</a>
-                <a>69420</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <footer class="copyright_div">
-      <a href="https://github.com/FQQD/MCServer-Web-Template" class="copyright">Made by FQQD 2023 - Edited by [Name] [Year]</a>
-    </footer>
-  </body>
+        }
+        
+        // 页面加载完成后预加载图片
+        window.addEventListener('DOMContentLoaded', preloadImages);
+    </script>
+</body>
 </html>
